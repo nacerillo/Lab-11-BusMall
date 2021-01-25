@@ -2,3 +2,28 @@ img {
   width: 250px;
   height: 300px;
 }
+#headerimg {
+  width: 100px;
+  height: 25px;
+}
+
+#results {
+  float: left;
+  width: 20%;
+  height: 60%;
+}
+
+#mag-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 10px;
+  background-color: #2196f3;
+  padding: 10px;
+}
+
+#mag-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
