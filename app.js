@@ -45,7 +45,7 @@ new ProductImage('assets/assets/wine-glass.jpg','wine-glass.jpg');
 // select elements from my html to render your images
 var prodContainer = document.getElementById("mag-container");
 var resultShower = document.getElementById("show-results");
-//resultsShower.visibility = "hidden";
+//resultShower.visibility = "hidden";
 var leftProdImage = document.getElementById("left-mag");
 var leftProdClickCount = document.getElementById("left-count");
 
@@ -148,15 +148,18 @@ if(rounds === 25){
 }
 }
 */
+resultShower.addEventListener('click', handleResultsClick);
+function handleResultsClick(event){
+    renderResults();
+}
+
+
 prodContainer.addEventListener('click', function(event) {
     rounds+=1; 
 
-
-//console.log(event.target);
-//console.log(event.src);
 if(rounds === 25){
     resultShower.style.visibility = "visible";
-   // 
+   
     console.log("end of round");
 
 }
@@ -174,11 +177,10 @@ renderItem();
 /*function handleVoteClick(event){
 
 } */
-resultShower.addEventListener('click', function(event) {
-    renderResults();
-});
-function renderResults(){
 
+
+
+function renderResults(){
     var resultsContainer = document.getElementById("results-list");
     console.log("this is running")
     for(var j = 0; j < ProductImage.allImages.length; j++ ){
@@ -187,3 +189,41 @@ function renderResults(){
         resultsContainer.appendChild(listItem);
     }
 };
+
+//var cx = document.getElementById('mychart').getContext('2d');
+/*var myChart = new Chart(cx, {
+    type: 'bar',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});*/
