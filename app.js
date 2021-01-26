@@ -132,8 +132,20 @@ renderItem();
 
 
 /*
-function handleImageClick(event){
+function handleProdClick(event){
+for(var i = 0; i < ProductImage.allImages.length; i++){
+    if(event.target.src.includes(ProductImage.allImages[i].image)){
+        ProductImage.allImages[i].timesClicked++;
+        //console.log(ProductImage.allImages[i])
+    }
+}
+//var newProd = generateRandomItem();
+renderItem();
+if(rounds === 25){
+    resultShower.style.visibility = "visible";
+    prodContainer.removeEventListener('click',handleProdClick);
 
+}
 }
 */
 prodContainer.addEventListener('click', function(event) {
@@ -159,6 +171,9 @@ renderItem();
 
 });
 
+/*function handleVoteClick(event){
+
+} */
 resultShower.addEventListener('click', function(event) {
     renderResults();
 });
