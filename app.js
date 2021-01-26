@@ -5,12 +5,19 @@ function ProductImage(image, name) {
     this.timesClicked = 0;
     this.timesShown = 0;
     this.image = image
+    //this.image = 'assets/assets/${name}'
 
 ProductImage.allImages.push(this);
+//mapping using bracket notation on a product
+//ProductImage.ImageMap(this.name) = this;
 }
-
+//productImage.ImageMap = {};
 
 ProductImage.allImages = [];
+
+/* for(var z = 0; z < product.length; z++){
+    new ProductImage(product,product[i]);
+} */
 //creates magazine image and runs push operation inthe constructor
 new ProductImage(`assets/assets/bag.jpg`, 'bag.jpg');
 new ProductImage('assets/assets/banana.jpg', 'banana.jpg');
@@ -37,7 +44,7 @@ new ProductImage('assets/assets/wine-glass.jpg','wine-glass.jpg');
 //console.log(ProductImage.allImages)
 // select elements from my html to render your images
 var prodContainer = document.getElementById("mag-container");
-//var resultShower = document.getElementById("show-results");
+var resultShower = document.getElementById("show-results");
 //resultsShower.visibility = "hidden";
 var leftProdImage = document.getElementById("left-mag");
 var leftProdClickCount = document.getElementById("left-count");
@@ -72,16 +79,18 @@ function generateRandomItem(){
     var leftProd = ProductImage.allImages[leftIndex];
     var rightProd = ProductImage.allImages[rightIndex];
     var centerProd = ProductImage.allImages[centerIndex];
-    return [leftProd, rightProd, centerProd];
+    return [leftProd, centerProd, rightProd];
 }
 
-function renderItem(leftProd,rightProd, centerProd){
+function renderItem(leftProd,centerProd,rightProd){
     leftProdImage.src = leftProd.image;
     leftProdClickCount.textContent = "Times Clicked: " + leftProd.timesClicked;
     leftProd.timesShown ++;
+
     rightProdImage.src = rightProd.image;
     rightProdClickCount.textContent = "Times Clicked: " + rightProd.timesClicked;
     rightProd.timesShown ++;
+    
     centerProdImage.src = centerProd.image;
     centerProdClickCount.textContent = "Times Clicked: " + centerProd.timesClicked;
     centerProd.timesShown ++;
@@ -107,8 +116,8 @@ prodContainer.addEventListener('click', function(event) {
 //console.log(event.target);
 //console.log(event.src);
 if(rounds === 25){
-    resultsContainer.visibility = "visible";
-   // renderResults();
+    resultShower.style.visibility = "visible";
+   // 
     console.log("end of round");
 
 }
@@ -123,9 +132,9 @@ renderItem(newProd[0], newProd[1], newProd[2]);
 
 });
 
-/*resultShower.addEventListener('click', function(event) {
-    createResults();
-});*/
+resultShower.addEventListener('click', function(event) {
+    renderResults();
+});
 function renderResults(){
 
     var resultsContainer = document.getElementById("results-list");
