@@ -37,7 +37,8 @@ new ProductImage('assets/assets/wine-glass.jpg','wine-glass.jpg');
 //console.log(ProductImage.allImages)
 // select elements from my html to render your images
 var prodContainer = document.getElementById("mag-container");
-
+//var resultShower = document.getElementById("show-results");
+//resultsShower.visibility = "hidden";
 var leftProdImage = document.getElementById("left-mag");
 var leftProdClickCount = document.getElementById("left-count");
 
@@ -106,8 +107,10 @@ prodContainer.addEventListener('click', function(event) {
 //console.log(event.target);
 //console.log(event.src);
 if(rounds === 25){
-    renderResults();
-    console.log("end of round")
+    resultsContainer.visibility = "visible";
+   // renderResults();
+    console.log("end of round");
+
 }
 for(var i = 0; i < ProductImage.allImages.length; i++){
     if(event.target.src.includes(ProductImage.allImages[i].image)){
@@ -120,7 +123,11 @@ renderItem(newProd[0], newProd[1], newProd[2]);
 
 });
 
+/*resultShower.addEventListener('click', function(event) {
+    createResults();
+});*/
 function renderResults(){
+
     var resultsContainer = document.getElementById("results-list");
     console.log("this is running")
     for(var j = 0; j < ProductImage.allImages.length; j++ ){
