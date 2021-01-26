@@ -6,7 +6,7 @@
 
 <head>
   <link rel="stylesheet" href="style.css">
-<script scr = "https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 </head>
 
 <body>
@@ -23,17 +23,17 @@
       </div>
     <div id = "mag-container">
         <div class = "items">
-        <img id = "left-mag">
+        <img id = "left-mag" name = "">
         <p id = "left-count"></p>
         <p id = "left-shown"></p>
     </div>
     <div class  = "items">
-        <img id = "center-mag">
+        <img id = "center-mag" name = "">
         <p id = "center-count"></p>
         <p id = "center-shown"></p>
     </div>
     <div class  = "items">
-        <img id = "right-mag">
+        <img id = "right-mag" name = "">
         <p id = "right-count"></p>
         <p id = "right-shown"></p>
     </div>
@@ -46,7 +46,7 @@
         </p>
     </div>
 
-    <canvas id = "Mychart" width="400" height="400"></canvas>
+    <canvas id="myChart" width="400" height="400"></canvas>
   </main>
   <script src="app.js"></script>
 </body>

@@ -59,6 +59,9 @@ var centerShown = document.getElementById("center-shown");
 var leftShown = document.getElementById("left-shown");
 var rightShown = document.getElementById("right-shown");
 
+
+renderItem();
+
 function generateRandomItem(){
     var leftIndex = Math.floor(Math.random() * ProductImage.allImages.length);
     var rightIndex = Math.floor(Math.random() * ProductImage.allImages.length);
@@ -86,8 +89,6 @@ function renderItem(){
     //add a name addtribute to the divs containins the products
     var currentImages = [leftProdImage.name, centerProdImage.name, rightProdImage.name];
     var newImages = generateRandomItem();
-
-    
     while(currentImages[0] === newImages[0].name ||
            currentImages[1] === newImages[0].name ||
            currentImages[2] === newImages[0].name ||
@@ -127,7 +128,7 @@ function renderItem(){
 }
 
 //var randomProduct = generateRandomItem();
-renderItem();
+
  
 
 
@@ -153,34 +154,32 @@ function handleResultsClick(event){
     renderResults();
 }
 
+prodContainer.addEventListener('click',handleProductClick);
 
-prodContainer.addEventListener('click', function(event) {
-    rounds+=1; 
-
-if(rounds === 25){
+function handleProductClick(event){
+     rounds+=1; 
+    if(rounds === 25){
     resultShower.style.visibility = "visible";
-   
     console.log("end of round");
 
-}
-for(var i = 0; i < ProductImage.allImages.length; i++){
-    if(event.target.src.includes(ProductImage.allImages[i].image)){
+    }
+    for(var i = 0; i < ProductImage.allImages.length; i++)
+    {
+        if(event.target.name === ProductImage.allImages[i].name){
         ProductImage.allImages[i].timesClicked++;
         //console.log(ProductImage.allImages[i])
+        }
     }
-}
 //var newProd = generateRandomItem();
-renderItem();
+    renderItem();
+}
 
-});
 
-/*function handleVoteClick(event){
-
-} */
 
 
 
 function renderResults(){
+    renderChart();
     var resultsContainer = document.getElementById("results-list");
     console.log("this is running")
     for(var j = 0; j < ProductImage.allImages.length; j++ ){
@@ -190,40 +189,78 @@ function renderResults(){
     }
 };
 
-//var cx = document.getElementById('mychart').getContext('2d');
-/*var myChart = new Chart(cx, {
-    type: 'bar',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
+
+function renderChart(){
+var ctx = document.getElementById('myChart').getContext('2d');
+var votesByProduct = [];
+var timesProductsAreShow = [];
+var products= [];
+
+// what is this for loop doing?
+//  Is it required?
+for (var i = 0; i < ProductImage.allImages.length; i++) {
+  products.push(ProductImage.allImages[i].name);
+  votesByProduct.push(ProductImage.allImages[i].timesClicked);
+  timesProductsAreShow.push(ProductImage.allImages[i].timesShown);
+}
+
+// This is an object constructor, from chart.js.  Because we have installed our chart.js file from the cdn, we should have access to a new constructor
+var myChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: products, // array of strings goes here
+    datasets: [{
+      label: 'times clicked',
+      data: votesByProduct, // array of numbers goes here
+      // data: votesByProduct,
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1
     },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
+    {
+      label: 'times Shows',
+      data: timesProductsAreShow,
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
         }
+      }]
     }
-});*/
+  }
+});
+}
