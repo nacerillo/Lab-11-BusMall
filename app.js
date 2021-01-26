@@ -1,10 +1,10 @@
 `use strict`
 var rounds = 0;
 function ProductImage(image, name) {
-    this.name = name
+    this.name = name;
     this.timesClicked = 0;
     this.timesShown = 0;
-    this.image = image
+    this.image = image;
     //this.image = 'assets/assets/${name}'
 
 ProductImage.allImages.push(this);
@@ -82,22 +82,43 @@ function generateRandomItem(){
     return [leftProd, centerProd, rightProd];
 }
 
-function renderItem(leftProd,centerProd,rightProd){
-    leftProdImage.src = leftProd.image;
-    leftProdClickCount.textContent = "Times Clicked: " + leftProd.timesClicked;
-    leftProd.timesShown ++;
+function renderItem(){
+    //add a name addtribute to the divs containins the products
+    var currentImages = [leftProdImage.name, centerProdImage.name, rightProdImage.name];
+    var newImages = generateRandomItem();
 
-    rightProdImage.src = rightProd.image;
-    rightProdClickCount.textContent = "Times Clicked: " + rightProd.timesClicked;
-    rightProd.timesShown ++;
     
-    centerProdImage.src = centerProd.image;
-    centerProdClickCount.textContent = "Times Clicked: " + centerProd.timesClicked;
-    centerProd.timesShown ++;
+    while(currentImages[0] === newImages[0].name ||
+           currentImages[1] === newImages[0].name ||
+           currentImages[2] === newImages[0].name ||
+           currentImages[0] === newImages[1].name ||
+           currentImages[1] === newImages[1].name ||
+           currentImages[2] === newImages[1].name ||
+           currentImages[0] === newImages[2].name ||
+           currentImages[1] === newImages[2].name ||
+           currentImages[2] === newImages[2].name){
+           newImages = generateRandomItem();
+    }
+    
 
-    leftShown.textContent = "Times Shown: " + leftProd.timesShown;
-    rightShown.textContent = "Times Shown: " + rightProd.timesShown;
-    centerShown.textContent = "Times Shown: " + centerProd.timesShown;
+    leftProdImage.src = newImages[0].image;
+    leftProdImage.name = newImages[0].name;
+    leftProdClickCount.textContent = "Times Clicked: " + newImages[0].timesClicked;
+    newImages[0].timesShown ++;
+
+    rightProdImage.src = newImages[2].image;
+    rightProdImage.name = newImages[2].name;
+    rightProdClickCount.textContent = "Times Clicked: " + newImages[2].timesClicked;
+    newImages[2].timesShown ++;
+    
+    centerProdImage.src = newImages[1].image;
+    centerProdImage.name = newImages[1].name;
+    centerProdClickCount.textContent = "Times Clicked: " + newImages[1].timesClicked;
+    newImages[1].timesShown ++;
+
+    leftShown.textContent = "Times Shown: " + newImages[0].timesShown;
+    rightShown.textContent = "Times Shown: " + newImages[2].timesShown;
+    centerShown.textContent = "Times Shown: " + newImages[1].timesShown;
 
 
  //   leftProdClickCount.content = leftProd.timesClicked;
@@ -105,10 +126,16 @@ function renderItem(leftProd,centerProd,rightProd){
     //set an id attribute for each product
 }
 
-var randomProduct = generateRandomItem();
-renderItem(randomProduct[0],randomProduct[1], randomProduct[2]);
+//var randomProduct = generateRandomItem();
+renderItem();
  
 
+
+/*
+function handleImageClick(event){
+
+}
+*/
 prodContainer.addEventListener('click', function(event) {
     rounds+=1; 
 
@@ -127,8 +154,8 @@ for(var i = 0; i < ProductImage.allImages.length; i++){
         //console.log(ProductImage.allImages[i])
     }
 }
-var newProd = generateRandomItem();
-renderItem(newProd[0], newProd[1], newProd[2]);
+//var newProd = generateRandomItem();
+renderItem();
 
 });
 
