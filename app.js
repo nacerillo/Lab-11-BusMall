@@ -5,16 +5,14 @@ function ProductImage(image, name) {
     this.timesClicked = 0;
     this.timesShown = 0;
     this.image = image;
-    //this.image = 'assets/assets/${name}'
-
 ProductImage.allImages.push(this);
-//mapping using bracket notation on a product
-//ProductImage.ImageMap(this.name) = this;
+
 }
+//localStorage.clear();
+var storedProdData = localStorage.getItem('products');
 //productImage.ImageMap = {};
-
 ProductImage.allImages = [];
-
+if(storedProdData === null){
 /* for(var z = 0; z < product.length; z++){
     new ProductImage(product,product[i]);
 } */
@@ -38,8 +36,14 @@ new ProductImage('assets/assets/unicorn.jpg','nicorn.jpg');
 new ProductImage('assets/assets/usb.gif','usb.gif');
 new ProductImage('assets/assets/water-can.jpg','water-can.jpg');
 new ProductImage('assets/assets/wine-glass.jpg','wine-glass.jpg');
+}
 
-
+else{
+  console.log(storedProdData);
+  ProductImage.allImages = JSON.parse(storedProdData);
+  console.log("elements are stored");
+}
+//var prodData = localStorage.setItem()
 
 //console.log(ProductImage.allImages)
 // select elements from my html to render your images
@@ -85,11 +89,13 @@ function generateRandomItem(){
     return [leftProd, centerProd, rightProd];
 }
 
-function renderItem(){
+function renderItem()
+{
     //add a name addtribute to the divs containins the products
     var currentImages = [leftProdImage.name, centerProdImage.name, rightProdImage.name];
     var newImages = generateRandomItem();
-    while(currentImages[0] === newImages[0].name ||
+    //move this to a function that returns boolean
+    while( currentImages[0] === newImages[0].name ||
            currentImages[1] === newImages[0].name ||
            currentImages[2] === newImages[0].name ||
            currentImages[0] === newImages[1].name ||
@@ -120,7 +126,6 @@ function renderItem(){
     leftShown.textContent = "Times Shown: " + newImages[0].timesShown;
     rightShown.textContent = "Times Shown: " + newImages[2].timesShown;
     centerShown.textContent = "Times Shown: " + newImages[1].timesShown;
-
 
  //   leftProdClickCount.content = leftProd.timesClicked;
   //  rightProdClickCount.content = rightProd.timesClicked;
@@ -158,19 +163,24 @@ prodContainer.addEventListener('click',handleProductClick);
 
 function handleProductClick(event){
      rounds+=1; 
-    if(rounds === 25){
+    
+     for(var i = 0; i < ProductImage.allImages.length; i++)
+     {
+         if(event.target.name === ProductImage.allImages[i].name){
+         ProductImage.allImages[i].timesClicked++;
+         //console.log(ProductImage.allImages[i])
+         }
+     }
+    if(rounds === 10){
+    
     prodContainer.removeEventListener('click',handleProductClick,false);
     resultShower.style.visibility = "visible";
     console.log("end of round");
+    var store = JSON.stringify(ProductImage.allImages);
+    localStorage.setItem('products', store);
 
     }
-    for(var i = 0; i < ProductImage.allImages.length; i++)
-    {
-        if(event.target.name === ProductImage.allImages[i].name){
-        ProductImage.allImages[i].timesClicked++;
-        //console.log(ProductImage.allImages[i])
-        }
-    }
+  
 //var newProd = generateRandomItem();
     renderItem();
 }
@@ -191,19 +201,20 @@ function renderResults(){
 };
 
 
-function renderChart(){
-var ctx = document.getElementById('myChart').getContext('2d');
-var votesByProduct = [];
-var timesProductsAreShow = [];
-var products= [];
+function renderChart()
+{
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var votesByProduct = [];
+  var timesProductsAreShow = [];
+  var products= [];
 
 // what is this for loop doing?
 //  Is it required?
-for (var i = 0; i < ProductImage.allImages.length; i++) {
+  for (var i = 0; i < ProductImage.allImages.length; i++) {
   products.push(ProductImage.allImages[i].name);
   votesByProduct.push(ProductImage.allImages[i].timesClicked);
   timesProductsAreShow.push(ProductImage.allImages[i].timesShown);
-}
+  }
 
 // This is an object constructor, from chart.js. 
 var myChart = new Chart(ctx, {
@@ -336,16 +347,13 @@ var myChart = new Chart(ctx, {
         'rgba(153, 102, 255, 1)',
         'rgba(153, 102, 255, 1)',
         'rgba(153, 102, 255, 1)',       
-       'rgba(153, 102, 255, 1)',
         'rgba(153, 102, 255, 1)',
         'rgba(153, 102, 255, 1)',
         'rgba(153, 102, 255, 1)',
         'rgba(153, 102, 255, 1)',
         'rgba(153, 102, 255, 1)',
-        'rgba(153, 102, 255, 1)'
-        
-
-       
+        'rgba(153, 102, 255, 1)',
+        'rgba(153, 102, 255, 1)'      
       ],
       borderWidth: 1
     }]
