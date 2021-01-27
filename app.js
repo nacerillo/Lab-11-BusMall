@@ -1,16 +1,23 @@
 `use strict`
 var rounds = 0;
 function ProductImage(image, name) {
-    this.name = name
+    this.name = name;
     this.timesClicked = 0;
     this.timesShown = 0;
-    this.image = image
+    this.image = image;
+    //this.image = 'assets/assets/${name}'
 
 ProductImage.allImages.push(this);
+//mapping using bracket notation on a product
+//ProductImage.ImageMap(this.name) = this;
 }
-
+//productImage.ImageMap = {};
 
 ProductImage.allImages = [];
+
+/* for(var z = 0; z < product.length; z++){
+    new ProductImage(product,product[i]);
+} */
 //creates magazine image and runs push operation inthe constructor
 new ProductImage(`assets/assets/bag.jpg`, 'bag.jpg');
 new ProductImage('assets/assets/banana.jpg', 'banana.jpg');
@@ -37,8 +44,8 @@ new ProductImage('assets/assets/wine-glass.jpg','wine-glass.jpg');
 //console.log(ProductImage.allImages)
 // select elements from my html to render your images
 var prodContainer = document.getElementById("mag-container");
-//var resultShower = document.getElementById("show-results");
-//resultsShower.visibility = "hidden";
+var resultShower = document.getElementById("show-results");
+//resultShower.visibility = "hidden";
 var leftProdImage = document.getElementById("left-mag");
 var leftProdClickCount = document.getElementById("left-count");
 
@@ -51,6 +58,9 @@ var centerProdClickCount = document.getElementById("center-count");
 var centerShown = document.getElementById("center-shown");
 var leftShown = document.getElementById("left-shown");
 var rightShown = document.getElementById("right-shown");
+
+
+renderItem();
 
 function generateRandomItem(){
     var leftIndex = Math.floor(Math.random() * ProductImage.allImages.length);
@@ -72,23 +82,44 @@ function generateRandomItem(){
     var leftProd = ProductImage.allImages[leftIndex];
     var rightProd = ProductImage.allImages[rightIndex];
     var centerProd = ProductImage.allImages[centerIndex];
-    return [leftProd, rightProd, centerProd];
+    return [leftProd, centerProd, rightProd];
 }
 
-function renderItem(leftProd,rightProd, centerProd){
-    leftProdImage.src = leftProd.image;
-    leftProdClickCount.textContent = "Times Clicked: " + leftProd.timesClicked;
-    leftProd.timesShown ++;
-    rightProdImage.src = rightProd.image;
-    rightProdClickCount.textContent = "Times Clicked: " + rightProd.timesClicked;
-    rightProd.timesShown ++;
-    centerProdImage.src = centerProd.image;
-    centerProdClickCount.textContent = "Times Clicked: " + centerProd.timesClicked;
-    centerProd.timesShown ++;
+function renderItem(){
+    //add a name addtribute to the divs containins the products
+    var currentImages = [leftProdImage.name, centerProdImage.name, rightProdImage.name];
+    var newImages = generateRandomItem();
+    while(currentImages[0] === newImages[0].name ||
+           currentImages[1] === newImages[0].name ||
+           currentImages[2] === newImages[0].name ||
+           currentImages[0] === newImages[1].name ||
+           currentImages[1] === newImages[1].name ||
+           currentImages[2] === newImages[1].name ||
+           currentImages[0] === newImages[2].name ||
+           currentImages[1] === newImages[2].name ||
+           currentImages[2] === newImages[2].name){
+           newImages = generateRandomItem();
+    }
+    
 
-    leftShown.textContent = "Times Shown: " + leftProd.timesShown;
-    rightShown.textContent = "Times Shown: " + rightProd.timesShown;
-    centerShown.textContent = "Times Shown: " + centerProd.timesShown;
+    leftProdImage.src = newImages[0].image;
+    leftProdImage.name = newImages[0].name;
+    leftProdClickCount.textContent = "Times Clicked: " + newImages[0].timesClicked;
+    newImages[0].timesShown ++;
+
+    rightProdImage.src = newImages[2].image;
+    rightProdImage.name = newImages[2].name;
+    rightProdClickCount.textContent = "Times Clicked: " + newImages[2].timesClicked;
+    newImages[2].timesShown ++;
+    
+    centerProdImage.src = newImages[1].image;
+    centerProdImage.name = newImages[1].name;
+    centerProdClickCount.textContent = "Times Clicked: " + newImages[1].timesClicked;
+    newImages[1].timesShown ++;
+
+    leftShown.textContent = "Times Shown: " + newImages[0].timesShown;
+    rightShown.textContent = "Times Shown: " + newImages[2].timesShown;
+    centerShown.textContent = "Times Shown: " + newImages[1].timesShown;
 
 
  //   leftProdClickCount.content = leftProd.timesClicked;
@@ -96,38 +127,59 @@ function renderItem(leftProd,rightProd, centerProd){
     //set an id attribute for each product
 }
 
-var randomProduct = generateRandomItem();
-renderItem(randomProduct[0],randomProduct[1], randomProduct[2]);
+//var randomProduct = generateRandomItem();
+
  
 
-prodContainer.addEventListener('click', function(event) {
-    rounds+=1; 
 
-
-//console.log(event.target);
-//console.log(event.src);
-if(rounds === 25){
-    resultsContainer.visibility = "visible";
-   // renderResults();
-    console.log("end of round");
-
-}
+/*
+function handleProdClick(event){
 for(var i = 0; i < ProductImage.allImages.length; i++){
     if(event.target.src.includes(ProductImage.allImages[i].image)){
         ProductImage.allImages[i].timesClicked++;
         //console.log(ProductImage.allImages[i])
     }
 }
-var newProd = generateRandomItem();
-renderItem(newProd[0], newProd[1], newProd[2]);
+//var newProd = generateRandomItem();
+renderItem();
+if(rounds === 25){
+    resultShower.style.visibility = "visible";
+    prodContainer.removeEventListener('click',handleProdClick);
 
-});
+}
+}
+*/
+resultShower.addEventListener('click', handleResultsClick);
+function handleResultsClick(event){
+    renderResults();
+}
 
-/*resultShower.addEventListener('click', function(event) {
-    createResults();
-});*/
+prodContainer.addEventListener('click',handleProductClick);
+
+function handleProductClick(event){
+     rounds+=1; 
+    if(rounds === 25){
+    resultShower.style.visibility = "visible";
+    console.log("end of round");
+
+    }
+    for(var i = 0; i < ProductImage.allImages.length; i++)
+    {
+        if(event.target.name === ProductImage.allImages[i].name){
+        ProductImage.allImages[i].timesClicked++;
+        //console.log(ProductImage.allImages[i])
+        }
+    }
+//var newProd = generateRandomItem();
+    renderItem();
+}
+
+
+
+
+
 function renderResults(){
-
+    renderChart();
     var resultsContainer = document.getElementById("results-list");
     console.log("this is running")
     for(var j = 0; j < ProductImage.allImages.length; j++ ){
@@ -136,3 +188,79 @@ function renderResults(){
         resultsContainer.appendChild(listItem);
     }
 };
+
+
+function renderChart(){
+var ctx = document.getElementById('myChart').getContext('2d');
+var votesByProduct = [];
+var timesProductsAreShow = [];
+var products= [];
+
+// what is this for loop doing?
+//  Is it required?
+for (var i = 0; i < ProductImage.allImages.length; i++) {
+  products.push(ProductImage.allImages[i].name);
+  votesByProduct.push(ProductImage.allImages[i].timesClicked);
+  timesProductsAreShow.push(ProductImage.allImages[i].timesShown);
+}
+
+// This is an object constructor, from chart.js.  Because we have installed our chart.js file from the cdn, we should have access to a new constructor
+var myChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: products, // array of strings goes here
+    datasets: [{
+      label: 'times clicked',
+      data: votesByProduct, // array of numbers goes here
+      // data: votesByProduct,
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1
+    },
+    {
+      label: 'times Shows',
+      data: timesProductsAreShow,
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
+}
