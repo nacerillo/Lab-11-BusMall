@@ -8,15 +8,11 @@ function ProductImage(image, name) {
 ProductImage.allImages.push(this);
 
 }
-//localStorage.clear();
 var storedProdData = localStorage.getItem('products');
-//productImage.ImageMap = {};
+
 ProductImage.allImages = [];
 if(storedProdData === null){
-/* for(var z = 0; z < product.length; z++){
-    new ProductImage(product,product[i]);
-} */
-//creates magazine image and runs push operation inthe constructor
+
 new ProductImage(`assets/assets/bag.jpg`, 'bag.jpg');
 new ProductImage('assets/assets/banana.jpg', 'banana.jpg');
 new ProductImage('assets/assets/bathroom.jpg','bathroom.jpg');
@@ -43,13 +39,11 @@ else{
   ProductImage.allImages = JSON.parse(storedProdData);
   console.log("elements are stored");
 }
-//var prodData = localStorage.setItem()
 
-//console.log(ProductImage.allImages)
-// select elements from my html to render your images
+
 var prodContainer = document.getElementById("mag-container");
 var resultShower = document.getElementById("show-results");
-//resultShower.visibility = "hidden";
+
 var leftProdImage = document.getElementById("left-mag");
 var leftProdClickCount = document.getElementById("left-count");
 
@@ -127,33 +121,9 @@ function renderItem()
     rightShown.textContent = "Times Shown: " + newImages[2].timesShown;
     centerShown.textContent = "Times Shown: " + newImages[1].timesShown;
 
- //   leftProdClickCount.content = leftProd.timesClicked;
-  //  rightProdClickCount.content = rightProd.timesClicked;
-    //set an id attribute for each product
 }
 
-//var randomProduct = generateRandomItem();
 
- 
-
-
-/*
-function handleProdClick(event){
-for(var i = 0; i < ProductImage.allImages.length; i++){
-    if(event.target.src.includes(ProductImage.allImages[i].image)){
-        ProductImage.allImages[i].timesClicked++;
-        //console.log(ProductImage.allImages[i])
-    }
-}
-//var newProd = generateRandomItem();
-renderItem();
-if(rounds === 25){
-    resultShower.style.visibility = "visible";
-    prodContainer.removeEventListener('click',handleProdClick);
-
-}
-}
-*/
 resultShower.addEventListener('click', handleResultsClick);
 function handleResultsClick(event){
     renderResults();
@@ -168,10 +138,9 @@ function handleProductClick(event){
      {
          if(event.target.name === ProductImage.allImages[i].name){
          ProductImage.allImages[i].timesClicked++;
-         //console.log(ProductImage.allImages[i])
          }
      }
-    if(rounds === 10){
+    if(rounds === 25){
     
     prodContainer.removeEventListener('click',handleProductClick,false);
     resultShower.style.visibility = "visible";
@@ -187,11 +156,10 @@ function handleProductClick(event){
 
 
 
-
-
 function renderResults(){
     renderChart();
     var resultsContainer = document.getElementById("results-list");
+    resultShower.removeEventListener('click',handleResultsClick,false);
     console.log("this is running")
     for(var j = 0; j < ProductImage.allImages.length; j++ ){
         var listItem = document.createElement('li');
@@ -224,16 +192,110 @@ var myChart = new Chart(ctx, {
     datasets: [{
       label: 'times clicked',
       data: votesByProduct, 
-      backgroundColor: [ new Array(20).fill('rgba(255, 99, 132, 0.2)')],
-      borderColor: [ new Array(20).fill('rgba(255, 99, 132, 1)')],
+      backgroundColor: /*[new Array(20).fill('rgba(255, 99, 132, 0.2)')]*/
+      ['rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 99, 132, 0.2)'],
+    borderColor: [/*new Array(20).fill('rgba(255, 99, 132, 1)')*/
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 99, 132, 1)'],
       borderWidth: 1
     },
     {
       label: 'times Shows',
       data: timesProductsAreShow,
-      backgroundColor: [ new Array(20).fill( 'rgba(54, 162, 235, 0.2)')],
-      borderColor: [
-        new Array(20).fill('rgba(153, 102, 255, 1)')],
+    backgroundColor: [/*(new Array(20).fill( 'rgba(54, 162, 235, 0.2)')*/
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+  ],
+      borderColor: [ /*new Array(20).fill('rgba(153, 102, 255, 1)')*/
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(153, 102, 255, 1)'],
       borderWidth: 1
     }]
   },
