@@ -1,3 +1,5 @@
+//PLEASE document 
+
 `use strict`
 var rounds = 0;
 function ProductImage(image, name) {
@@ -43,13 +45,9 @@ else{
   ProductImage.allImages = JSON.parse(storedProdData);
   console.log("elements are stored");
 }
-//var prodData = localStorage.setItem()
 
-//console.log(ProductImage.allImages)
-// select elements from my html to render your images
 var prodContainer = document.getElementById("mag-container");
 var resultShower = document.getElementById("show-results");
-//resultShower.visibility = "hidden";
 var leftProdImage = document.getElementById("left-mag");
 var leftProdClickCount = document.getElementById("left-count");
 
